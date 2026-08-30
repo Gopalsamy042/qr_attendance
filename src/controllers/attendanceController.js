@@ -61,6 +61,20 @@ async function showMarkForm(req, res) {
     });
   }
 
+  // Check device fingerprint cookie
+  const cookieName = `device_marked_${sessionId}`;
+  const previouslyMarkedRoll = req.signedCookies ? req.signedCookies[cookieName] : null;
+
+  if (previouslyMarkedRoll) {
+    return renderMarkPage(res, {
+      mode: "already",
+      title: "Already marked",
+      message: "This device has already marked attendance for this session.",
+      className: session.className,
+      studentId: previouslyMarkedRoll,
+    });
+  }
+
   return renderMarkPage(res, {
     mode: "form",
     session,
@@ -80,10 +94,25 @@ async function markAttendance(req, res) {
     });
   }
 
+  const sessionId = req.body.sessionId;
+  const studentId = req.body.studentId;
+
+  // Check device fingerprint cookie to prevent proxy marking
+  const cookieName = `device_marked_${sessionId}`;
+  const previouslyMarkedRoll = req.signedCookies ? req.signedCookies[cookieName] : null;
+
+  if (previouslyMarkedRoll && previouslyMarkedRoll !== studentId) {
+    return renderMarkPage(res.status(403), {
+      mode: "error",
+      title: "Proxy Blocked",
+      message: "This device has already been used to mark attendance for a different roll number.",
+    });
+  }
+
   const result = await attendanceService.markAttendance({
-    sessionId: req.body.sessionId,
+    sessionId: sessionId,
     token: req.body.token,
-    studentId: req.body.studentId,
+    studentId: studentId,
     studentName: req.body.studentName,
   });
 
@@ -96,6 +125,14 @@ async function markAttendance(req, res) {
       studentId: result.studentId,
     });
   }
+
+  // Set secure signed cookie so this device can't mark someone else
+  res.cookie(`device_marked_${sessionId}`, result.studentId, {
+    signed: true,
+    httpOnly: true,
+    maxAge: 4 * 60 * 60 * 1000, // 4 hours
+    sameSite: "lax",
+  });
 
   return renderMarkPage(res, {
     mode: "success",

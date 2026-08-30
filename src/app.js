@@ -14,8 +14,12 @@ const PORT = Number(process.env.PORT) || 3000;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+const cookieParser = require("cookie-parser");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// Use a secret for signing cookies (fallback for local dev)
+app.use(cookieParser(process.env.COOKIE_SECRET || "qr-attendance-super-secret"));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
