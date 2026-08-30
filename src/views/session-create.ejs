@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New attendance session</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        color: white;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <main class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <p class="text-indigo-400 font-semibold tracking-wider text-sm uppercase mb-2">Teacher Portal</p>
+        <h1 class="text-4xl font-bold mb-4 tracking-tight">Create Session</h1>
+        <p class="text-slate-400 text-sm">
+          Enter the class name. You will get a rotating QR code to project for students.
+        </p>
+      </div>
+
+      <form class="glass-panel rounded-2xl p-8 shadow-2xl transition-all duration-300 hover:shadow-indigo-500/10" method="post" action="/api/sessions">
+        <div class="mb-6">
+          <label for="className" class="block text-sm font-medium text-slate-300 mb-2">Class Name</label>
+          <input
+            id="className"
+            name="className"
+            type="text"
+            required
+            maxlength="120"
+            placeholder="e.g. CS401 Operating Systems — Lab A"
+            autocomplete="off"
+            class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+          />
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:ring-4 focus:ring-indigo-500/50">
+          Start Session
+        </button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,225 @@
+:root {
+  --bg: #0f1419;
+  --card: #1a222c;
+  --ink: #e8eef5;
+  --muted: #9aa8b5;
+  --accent: #3d9cf0;
+  --danger: #e85d5d;
+  --ok: #3ecf8e;
+  --warn: #e6b84d;
+  --line: #2a3542;
+  --radius: 14px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 500px at 10% -10%, #1c3a5a 0%, var(--bg) 55%);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.page--narrow {
+  max-width: 440px;
+  padding-top: 4rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.lede,
+.hint,
+.meta {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.form label {
+  display: block;
+  margin: 0.75rem 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.form input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #12181f;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.form button,
+.btn {
+  display: inline-block;
+  margin-top: 1.1rem;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #061018;
+  font-weight: 650;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.dash-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.dash-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 1rem;
+}
+
+.qr-frame {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.qr-frame img {
+  width: min(100%, 420px);
+  height: auto;
+}
+
+.countdown {
+  text-align: center;
+  margin: 0.9rem 0 0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.pill--live {
+  background: #143528;
+  color: var(--ok);
+}
+
+.pill--ended {
+  background: #3a2222;
+  color: var(--danger);
+}
+
+.table-wrap {
+  overflow: auto;
+  max-height: 520px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.count {
+  margin: 0;
+  color: var(--muted);
+}
+
+.list-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.error {
+  color: var(--danger);
+}
+
+.hidden {
+  display: none;
+}
+
+.result--success h1 {
+  color: var(--ok);
+}
+
+.result--expired h1,
+.result--ended h1,
+.result--error h1 {
+  color: var(--warn);
+}
+
+.result--already h1 {
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+}

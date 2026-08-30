@@ -1,0 +1,45 @@
+// Prisma maps this schema to PostgreSQL tables.
+// We use Prisma (not raw pg) so migrations and relations stay reviewable for a viva.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SessionStatus {
+  ACTIVE
+  ENDED
+}
+
+model Session {
+  id           String         @id @default(uuid())
+  className    String
+  status       SessionStatus  @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  endedAt      DateTime?
+  attendances  Attendance[]
+}
+
+model Student {
+  // Primary key IS the roll number so attendance lookups stay simple.
+  id           String        @id
+  name         String
+  attendances  Attendance[]
+}
+
+model Attendance {
+  id         Int      @id @default(autoincrement())
+  sessionId  String
+  studentId  String
+  markedAt   DateTime @default(now())
+
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  // Database-level uniqueness: two concurrent POSTs cannot both insert.
+  @@unique([sessionId, studentId])
+}
